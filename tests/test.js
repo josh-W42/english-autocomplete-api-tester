@@ -1,44 +1,41 @@
-const db = require('../models');
+const Trie = require('../Trie');
 
-// make a word
-const makeWords = async () => {
-  try {
-    const newWord1 = await db.Word.create({
-      content: "Happy"
-    });
+// test the trie
 
-    console.log(newWord1);
-  } catch (error) {
-    console.error(error);
+const trieTest = () => {
+  const trie = new Trie();
+  
+  const smallDb = [
+    "red",
+    "rude",
+    "rise",
+    "ripe",
+    "ripen",
+    "happy",
+    "cool",
+    "crystal",
+    "crysis",
+    "crypt",
+  ];
+  
+  for (word of smallDb) {
+    trie.addWord(word);
   }
+  
+  console.log(trie.findSuffixes('r')); // all r words
+  console.log(trie.findSuffixes('ri')); // rise, ripen, ripe
+  console.log(trie.findSuffixes('ru')); // rude
+  console.log(trie.findSuffixes('cry')); // crysis, crypt, crystal
+
+  // now the real db
+  // should be able to add all words without a problem
+  const dictionaryJson = require('../data/words_dictionary.json');
+  for (let word of Object.keys(dictionaryJson)) {
+    trie.addWord(word);
+  }
+  // if you wanted to test on prefix
+  // console.log(trie.findSuffixes('app'));
+
 }
 
-makeWords();
-
-// find all words
-const findWords = async () => {
-  try {
-    const allWords = await db.Word.find({});
-    console.log(allWords);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-findWords();
-
-// delete words
-const deleteWords = async () => {
-  try {
-    findWords();
-    const word = await db.Word.findOne({});
-    await word.delete();
-
-    const words = await db.Word.find({});
-    console.log(words);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-deleteWords();
+// trieTest();
