@@ -6,9 +6,7 @@ Now Bootstraped with create-react-app.
 
 The goal of this api is to make an autocomplete feature that's commonly used in search fields.
 
-I want to make a couple routes with query parameters that can change the data returned. Like: limit=10
-
-I do also want to add a feature to add a word to dictionary.
+I want to make a route with query parameters that can change the data returned. Like: limit=10
 
 ## Planning:
 
